@@ -20,6 +20,23 @@ fn times10(n: i32) ->i32{
     n*10
 }
 
+// Chapter 2: Types and functions
+
+//2.7.1
+
+use std::collections::HashMap;
+use std::hash::Hash;
+
+fn memoize<A,B>(f: impl Fn(A)->B)->impl Fn(A)->B where A: PartialEq + Eq +Hash {
+    let cache: HashMap<A, B> = HashMap::new();
+    move |a: A|->B{
+        match cache.get(&a) {
+            Some(b) => return b,
+            None => return f(a),
+        }
+    }
+}
+
 fn main() {
     let x = 2;
     let y = identity(x);
