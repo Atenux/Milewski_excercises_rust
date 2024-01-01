@@ -27,16 +27,25 @@ fn times10(n: i32) ->i32{
 use std::collections::HashMap;
 use std::hash::Hash;
 
-fn memoize<A,B>(f: impl Fn(A)->B)->impl Fn(A)->B where A: PartialEq + Eq +Hash {
+
+// not sure if this does anything (Clojures how do they work?)
+fn memoize<A,B>(f: impl Fn(A)->B)->impl Fn(A)->B where A: PartialEq + Eq +Hash, B: Copy {
     let cache: HashMap<A, B> = HashMap::new();
     move |a: A|->B{
         match cache.get(&a) {
-            Some(b) => return b,
+            Some(b) => return *b,
             None => return f(a),
         }
     }
 }
 
+fn fib(n: u32) ->u32 {
+    if n<2{
+        return 1
+    }else{
+        return fib(n-1)+fib(n-2)
+    }
+}
 fn main() {
     let x = 2;
     let y = identity(x);
@@ -52,4 +61,9 @@ fn main() {
     println!("add2times10 de {x} es igual a {z}");
     println!("add2 ° identity de {x} es {a}");
     println!("identity ° add 2 de {x} es {b}");
+    let na=100;
+    // let fibna = fib(na);
+    let mfib = memoize(fib)(na);
+    // println!("fib de {na} es {fibna}");
+    println!("fib de {na} es {mfib}");
 }
