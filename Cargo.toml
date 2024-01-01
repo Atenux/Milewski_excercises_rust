@@ -1,5 +1,5 @@
 [package]
-name = "Milewski_excercises_rust"
+name = "milewski_excercises_rust"
 version = "0.1.0"
 edition = "2021"
 
